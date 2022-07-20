@@ -17,28 +17,35 @@
 - name: "Copy dockerfiles to {{ jenkins_dockerfiles_folder }}"
   become: yes
   copy:
-    src: "files/dockerfiles/"
+    src: "files/{{ jenkins_setup }}/dockerfiles/"
     dest: "{{ jenkins_dockerfiles_folder }}"
   register: dockerfile
+
+- name: "Assemble jenkins plugins.txt file"
+  become: yes
+  assemble:
+    src: "files/{{ jenkins_setup }}/jenkins_plugins"
+    dest: "{{ jenkins_dockerfiles_folder }}"
+    remote_src: no
 
 - name: "Copy jenkins config files to {{ jenkins_config_folder }}"
   become: yes
   copy:
-    src: "files/jenkins_config/"
+    src: "files/{{ jenkins_setup }}/jenkins_config/"
     dest: "{{ jenkins_config_folder }}"
   register: jobs_config
 
 - name: "Copy docker daemon config to {{ jenkins_docker_folder }}"
   become: yes
   copy:
-    src: "files/docker/daemon.json"
+    src: "files/{{ jenkins_setup }}/docker/daemon.json"
     dest: "{{ jenkins_docker_folder }}"
   register: docker_config
 
 - name: "Copy caddy config to {{ jenkins_caddy_folder }}"
   become: yes
   copy:
-    src: "files/caddy/Caddyfile"
+    src: "files/{{ jenkins_setup }}/caddy/Caddyfile"
     dest: "{{ jenkins_caddy_folder }}"
   register: caddy_config
 
@@ -46,4 +53,5 @@
     name: docker-compose-service
   vars:
     service_name: "jenkins"
+    compose_template: "templates/{{ jenkins_setup }}/docker-compose.yml"
     force_restart: "{{ dockerfile.changed }} or {{ jobs_config.changed }} or {{ docker_config.changed }} or {{ caddy_config.changed }}"

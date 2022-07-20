@@ -241,6 +241,6 @@ Most relevant Files
 * [`docker-compose.yml`]
 * [`daemon.json`]
 
-[Controller-Dockerfile]: ansible/roles/jenkins/files/dockerfiles/jenkins-controller/Dockerfile
-[`docker-compose.yml`]: ansible/roles/jenkins/templates/docker-compose.yml
-[`daemon.json`]: ansible/roles/jenkins/files/docker/daemon.json
+[Controller-Dockerfile]: ansible/roles/jenkins/files/example/dockerfiles/jenkins-controller/Dockerfile
+[`docker-compose.yml`]: ansible/roles/jenkins/templates/example/docker-compose.yml
+[`daemon.json`]: ansible/roles/jenkins/files/example/docker/daemon.json

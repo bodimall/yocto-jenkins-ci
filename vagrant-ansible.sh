@@ -11,4 +11,4 @@ ansible-playbook \
   --inventory 127.0.0.1, \
   --limit 127.0.0.1 \
   --extra-vars 'ansible_python_interpreter=/usr/bin/python3' \
-  ${SCRIPT_DIR}/ansible/playbook.yml
+  ${SCRIPT_DIR}/ansible/example_playbook.yml

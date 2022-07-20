@@ -14,8 +14,8 @@ services:
       - jenkins-controller-home:/var/jenkins_home
       - {{ jenkins_config_folder }}:/var/jenkins_config:ro
 
-  jenkins-ssh-agent-1:
-    container_name: jenkins-ssh-agent-1
+  jenkins-agent-yocto:
+    container_name: jenkins-agent-yocto
     build: {{ jenkins_dockerfiles_folder }}/jenkins-ssh-agent
     runtime: sysbox-runc
     restart: always
@@ -25,20 +25,7 @@ services:
       jenkins:
     volumes:
       - jenkins-www:/var/www/jenkins
-      - jenkins-agent-1-home:/var/jenkins/agent-1
-
-  jenkins-ssh-agent-2:
-    container_name: jenkins-ssh-agent-2
-    build: {{ jenkins_dockerfiles_folder }}/jenkins-ssh-agent
-    runtime: sysbox-runc
-    restart: always
-    environment:
-      - JENKINS_AGENT_SSH_PUBKEY=ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC9bKxkJIUt7As5WnjrmmU7Ht21pu9Qbt001SSU5xqNRXkkNNRh/7axo+bCSJSWzREyMcAMEP/SZa8fXQrJYhTOFnFWE3Zj2R7FZn6RnsJpgrTfX8HMBYsNgHGK7iv2iZMKdF3QM0Op/VYEznZKFVlAAV8PoNxMOpYMC0bkJmmR76lrD66dzcKBwSbn2la9ZEY9XX90BdX44lMSo6tSwxF3WVHgw6+n4pVEDoLEGyIM8L5FzvVh6elmkQu9+NOT8y26b1VM2emFQrHpdtm7iImkZqJpHe2aCyf90SXe2EjvtEDXxDhRPaRBJHgadTUdx6wOqIMVz3358Pm3uu1/ET3l rsa-key-modern-jenkins-20220602
-    networks:
-      jenkins:
-    volumes:
-      - jenkins-www:/var/www/jenkins
-      - jenkins-agent-2-home:/var/jenkins/agent-2
+      - jenkins-agent-yocto-home:/var/jenkins/agent
 
   jenkins-caddy:
     container_name: jenkins-caddy
@@ -59,7 +46,6 @@ networks:
 
 volumes:
   jenkins-controller-home:
-  jenkins-agent-1-home:
-  jenkins-agent-2-home:
+  jenkins-agent-yocto-home:
   jenkins-www:
   jenkins-caddy-data:

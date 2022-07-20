@@ -45,8 +45,7 @@ RUN chmod +x /usr/bin/docker-entrypoint.sh
 # prepare folder for artifact publishing
 RUN mkdir -p /var/www/jenkins && chown jenkins:jenkins -R /var/www/jenkins
 
-# prepare individual home folders for agents
-RUN mkdir -p /var/jenkins/agent-1 && mkdir -p /var/jenkins/agent-2 \
-  && chown -R jenkins:jenkins /var/jenkins/
+# prepare home folder for agent
+RUN mkdir -p /var/jenkins/agent && chown -R jenkins:jenkins /var/jenkins/
 
 ENTRYPOINT ["/usr/bin/docker-entrypoint.sh"]

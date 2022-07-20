@@ -11,5 +11,5 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Run vagrant up
-      run: vagrant up
+    - name: Run vagrant up virtualbox-ubuntu2204
+      run: vagrant up virtualbox-ubuntu2204

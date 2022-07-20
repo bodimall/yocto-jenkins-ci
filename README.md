@@ -41,15 +41,29 @@ Quick start
 This project contains a completely scripted Virtualbox VM that hosts everything needed for this example jenkins setup.
 The tools used are:
 
-* VM Hypervisor: Virtualbox
+* VM Hypervisor: Virtualbox (Windows), KVM/QEMU (Linux)
 * VM management: Vagrant
 * Host Provisioning: Ansible
 
 To run the VM we need a working installation of Virtualbox and Vagrant.
 After that we can directly create and run the VM:
 
+Windows:
 ~~~~~~
-vagrant up
+vagrant up virtualbox-ubuntu2204
+
+or
+
+vagrant up virtualbox-bullseye
+~~~~~~
+
+Linux:
+~~~~~~
+vagrant up libvirt-ubuntu2204
+
+or
+
+vagrant up libvirt-bullseye
 ~~~~~~
 
 The VM creation and provisioning will take a while.
@@ -81,7 +95,7 @@ Working with the VM
 -------------------
 
 The VM runs an Ubuntu OS with a Docker installation to run all containers.
-To access the VM we can directly use the Virtualbox GUI, `vagrant ssh` or any other SSH agent like `PuTTY`.
+To access the VM we can directly use the Virtualbox GUI, `vagrant ssh <virtualbox-ubuntu2004|virtualbox-bullseye|libvirt-ubuntu2204|libvirt-bullseye>` or any other SSH agent like `PuTTY`.
 The user and password is `vagrant`.
 
 After connecting we can observe the logs of the jenkins docker-compose run:
@@ -137,7 +151,7 @@ After this we can restart the containers to see if everything is now up to date.
 The easiest way to achieve this is to use Vagrant:
 
 ~~~~~~
-vagrant provision
+vagrant provision <virtualbox-ubuntu2004|virtualbox-bullseye|libvirt-ubuntu2204|libvirt-bullseye>
 ~~~~~~
 
 The related ansible role will update all files in the VM and restart the Docker containers.

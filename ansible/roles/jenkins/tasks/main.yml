@@ -50,9 +50,24 @@
     dest: "{{ jenkins_caddy_folder }}"
   register: caddy_config
 
+- name: "Clone bitbake repository"
+  become: yes
+  git:
+    repo: https://git.openembedded.org/bitbake
+    dest: /usr/local/src/bitbake
+    version: "2022-04.2-kirkstone"
+    clone: yes
+    update: yes
+  register: bitbake_src
+
 - include_role:
     name: docker-compose-service
   vars:
     service_name: "jenkins"
     compose_template: "templates/{{ jenkins_setup }}/docker-compose.yml"
-    force_restart: "{{ dockerfile.changed }} or {{ plugins_config.changed }} or {{ jobs_config.changed }} or {{ docker_config.changed }} or {{ caddy_config.changed }}"
+    force_restart: "{{ dockerfile.changed }} or \
+                    {{ plugins_config.changed }} or \
+                    {{ jobs_config.changed }} or \
+                    {{ docker_config.changed }} or \
+                    {{ caddy_config.changed }} or \
+                    {{ bitbake_src.changed }}"

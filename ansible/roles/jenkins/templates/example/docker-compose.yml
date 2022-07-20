@@ -41,6 +41,36 @@ services:
       - 80:80
       - 443:443
 
+  hashserv-rw:
+    container_name: hashserv-rw
+    build:
+      context: /usr/local/src/bitbake
+      dockerfile: /usr/local/src/bitbake/contrib/hashserv/Dockerfile
+    runtime: sysbox-runc
+    command: "--database /data/hashserv.db --bind :8686 --log DEBUG"
+    restart: always
+    networks:
+      jenkins:
+    volumes:
+      - hashserv-db:/data
+    expose:
+      - "8686"
+
+  hashserv-ro:
+    container_name: hashserv-ro
+    build:
+      context: /usr/local/src/bitbake
+      dockerfile: /usr/local/src/bitbake/contrib/hashserv/Dockerfile
+    runtime: sysbox-runc
+    command: "--database /data/hashserv.db --bind :8687 --read-only --log DEBUG"
+    restart: always
+    networks:
+      jenkins:
+    volumes:
+      - hashserv-db:/data:ro
+    ports:
+      - 8687:8687
+
 networks:
   jenkins:
 
@@ -49,3 +79,4 @@ volumes:
   jenkins-agent-yocto-home:
   jenkins-www:
   jenkins-caddy-data:
+  hashserv-db:

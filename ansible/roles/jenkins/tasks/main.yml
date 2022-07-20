@@ -25,8 +25,9 @@
   become: yes
   assemble:
     src: "files/{{ jenkins_setup }}/jenkins_plugins"
-    dest: "{{ jenkins_dockerfiles_folder }}"
+    dest: "{{ jenkins_dockerfiles_folder }}/jenkins-controller/plugins.txt"
     remote_src: no
+  register: plugins_config
 
 - name: "Copy jenkins config files to {{ jenkins_config_folder }}"
   become: yes
@@ -54,4 +55,4 @@
   vars:
     service_name: "jenkins"
     compose_template: "templates/{{ jenkins_setup }}/docker-compose.yml"
-    force_restart: "{{ dockerfile.changed }} or {{ jobs_config.changed }} or {{ docker_config.changed }} or {{ caddy_config.changed }}"
+    force_restart: "{{ dockerfile.changed }} or {{ plugins_config.changed }} or {{ jobs_config.changed }} or {{ docker_config.changed }} or {{ caddy_config.changed }}"

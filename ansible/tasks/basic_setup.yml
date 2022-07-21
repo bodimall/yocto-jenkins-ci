@@ -2,21 +2,21 @@
   become: yes
   package:
     name:
-      - tree
-      - nano
-      - wget
-      - unzip
-      - tar
       - net-tools
+      - tar
+      - tree
+      - unzip
+      - vim
+      - wget
 
 - name: Install system statistics tools
   become: yes
   package:
     name:
-      - iotop
-      - htop
-      - sysstat
       - dstat
+      - htop
+      - iotop
+      - sysstat
 
 - name: Set timezone to Europe/Zurich
   become: yes

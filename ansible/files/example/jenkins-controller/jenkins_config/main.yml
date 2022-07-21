@@ -1,35 +1,113 @@
 jenkins:
+  agentProtocols:
+  - "JNLP4-connect"
+  - "Ping"
+  crumbIssuer:
+    standard:
+      excludeClientIPFromCrumb: false
+  disableRememberMe: false
+  globalNodeProperties:
+  - envVars:
+      env:
+      - key: "CI_BUILD_ID"
+        value: "$BUILD_TIMESTAMP-build-$BUILD_NUMBER"
+  labelAtoms:
+  - name: "built-in"
+  - name: "yocto"
+  - name: "yocto-1"
+  markupFormatter: "plainText"
+  mode: NORMAL
+  myViewsTabBar: "standard"
+  noUsageStatistics: true
+  nodes:
+  - permanent:
+      labelString: "yocto"
+      launcher:
+        ssh:
+          credentialsId: "modern-jenkins"
+          host: "jenkins-agent-yocto"
+          port: 22
+          sshHostKeyVerificationStrategy: "nonVerifyingKeyVerificationStrategy"
+      name: "yocto-1"
+      remoteFS: "/var/jenkins/agent"
+      retentionStrategy: "always"
   numExecutors: 0
+  primaryView:
+    all:
+      name: "all"
+  projectNamingStrategy: "standard"
+  quietPeriod: 5
   remotingSecurity:
     enabled: true
-  nodes:
-    - permanent:
-        labelString: "docker"
-        launcher:
-          ssh:
-            credentialsId: "modern-jenkins"
-            host: "jenkins-agent-yocto"
-            port: 22
-            sshHostKeyVerificationStrategy: "nonVerifyingKeyVerificationStrategy"
-        name: "yocto-agent"
-        remoteFS: "/var/jenkins/agent"
-        retentionStrategy: "always"
-
+  scmCheckoutRetryCount: 0
+  slaveAgentPort: 50000
+  updateCenter:
+    sites:
+    - id: "default"
+      url: "https://updates.jenkins.io/update-center.json"
+  views:
+  - all:
+      name: "all"
+  viewsTabBar: "standard"
+globalCredentialsConfiguration:
+  configuration:
+    providerFilter: "none"
+    typeFilter: "none"
+security:
+  apiToken:
+    creationOfLegacyTokenEnabled: false
+    tokenGenerationOnCreationEnabled: false
+    usageStatisticsEnabled: true
+  copyartifact:
+    mode: PRODUCTION
+  globalJobDslSecurityConfiguration:
+    useScriptSecurity: true
+  sSHD:
+    port: -1
 unclassified:
-  location:
-    adminAddress: "nobody@nowhere"
-    url: "https://jenkins.localhost/"
+  buildDiscarders:
+    configuredBuildDiscarders:
+    - "jobBuildDiscarder"
+    - defaultBuildDiscarder:
+        discarder:
+          logRotator:
+            artifactNumToKeepStr: "10"
+            daysToKeepStr: "365"
   buildTimestamp:
     enableBuildTimestamp: true
     pattern: "yyyy-MM-dd_HH-mm-ss"
     timezone: "Europe/Zurich"
-  buildDiscarders:
-    configuredBuildDiscarders:
-      - "jobBuildDiscarder"
-      - defaultBuildDiscarder:
-          discarder:
-            logRotator:
-              artifactDaysToKeepStr: "50"
-              artifactNumToKeepStr: "5"
-              daysToKeepStr: "100"
-              numToKeepStr: "10"
+  buildUserVars:
+    allBuilds: false
+  fingerprints:
+    fingerprintCleanupDisabled: false
+    storage: "file"
+  gitSCM:
+    addGitTagAction: false
+    allowSecondFetch: false
+    createAccountBasedOnEmail: false
+    disableGitToolChooser: false
+    hideCredentials: false
+    showEntireCommitSummaryInChanges: false
+    useExistingAccountWithSameEmail: false
+  junitTestResultStorage:
+    storage: "file"
+  location:
+    adminAddress: "nobody@nowhere"
+    url: "https://jenkins.localhost/"
+  mailer:
+    charset: "UTF-8"
+    useSsl: false
+    useTls: false
+  pollSCM:
+    pollingThreadCount: 10
+  upstream:
+    globalUpstreamFilterStrategy: UseOldest
+tool:
+  git:
+    installations:
+    - home: "git"
+      name: "Default"
+  mavenGlobalConfig:
+    globalSettingsProvider: "standard"
+    settingsProvider: "standard"

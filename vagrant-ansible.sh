@@ -8,7 +8,6 @@ sudo apt-get install ansible -y
 
 ansible-playbook \
   --connection=local \
-  --inventory 127.0.0.1, \
-  --limit 127.0.0.1 \
+  --inventory  ${SCRIPT_DIR}/ansible/inv-example \
   --extra-vars 'ansible_python_interpreter=/usr/bin/python3' \
   ${SCRIPT_DIR}/ansible/example_playbook.yml

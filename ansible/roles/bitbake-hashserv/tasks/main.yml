@@ -1,0 +1,11 @@
+---
+
+- name: "Clone bitbake repository to {{ bitbake_src_dir }}"
+  become: yes
+  git:
+    repo: https://git.openembedded.org/bitbake
+    dest: "{{ bitbake_src_dir }}"
+    version: "{{ bitbake_version }}"
+    clone: yes
+    update: yes
+  notify: Restart docker-compose service

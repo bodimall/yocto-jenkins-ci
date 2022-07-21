@@ -7,4 +7,5 @@
   roles:
     - role: dockerio
     - role: sysbox
+    - role: bitbake-hashserv
     - role: jenkins

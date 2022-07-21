@@ -70,4 +70,3 @@
                     {{ jobs_config.changed }} or \
                     {{ docker_config.changed }} or \
                     {{ caddy_config.changed }} or \
-                    {{ bitbake_src.changed }}"

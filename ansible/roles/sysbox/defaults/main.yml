@@ -1,0 +1,5 @@
+---
+
+sysbox_version: 0.5.0-0.linux
+sysbox_package_url: https://downloads.nestybox.com/sysbox/releases/v0.5.0/sysbox-ce_0.5.0-0.linux_amd64.deb
+sysbox_package_checksum: sha256:eeacd9ae0e08ee5e5637e3b93e4f0cf78f20f9590ef2e7ab08347700682422f0

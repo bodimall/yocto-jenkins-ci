@@ -4,7 +4,31 @@
   import_tasks: debian.yml
   when: ansible_distribution == 'Debian'
 
+- name: Gather the apt package facts
+  package_facts:
+    manager: apt
+
+- name: Check sysbox installation
+  set_fact:
+    sysbox_installed: "{{ ('sysbox-ce' in ansible_facts.packages) and \
+                          (ansible_facts.packages['sysbox-ce'][0]['version'] == sysbox_version) }}"
+
+- name: Create temporary directory
+  tempfile:
+    state: directory
+    suffix: sysbox
+  register: tmp_dir
+  when: not sysbox_installed
+
+- name: Download sysbox deb package
+  get_url:
+    url: "{{ sysbox_package_url }}"
+    dest: "{{ tmp_dir.path }}/sysbox-ce.deb"
+    checksum: "{{ sysbox_package_checksum }}"
+  when: not sysbox_installed
+
 - name: Install sysbox deb package
   become: yes
   apt:
-    deb: https://downloads.nestybox.com/sysbox/releases/v0.5.0/sysbox-ce_0.5.0-0.linux_amd64.deb
+    deb: "{{ tmp_dir.path }}/sysbox-ce.deb"
+  when: not sysbox_installed

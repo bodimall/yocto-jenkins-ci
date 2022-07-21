@@ -1,0 +1,17 @@
+---
+
+- name: Create config directory
+  become: yes
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 755
+  with_items:
+    - "{{ caddy_config_dir }}"
+
+- name: "Copy caddy config to {{ caddy_config_dir }}"
+  become: yes
+  copy:
+    src: "{{ inventory_hostname }}/caddy/Caddyfile"
+    dest: "{{ caddy_config_dir }}"
+  notify: Restart docker-compose service

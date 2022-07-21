@@ -12,7 +12,6 @@
     - "{{ jenkins_config_folder }}"
     - "{{ jenkins_config_folder }}/jobs"
     - "{{ jenkins_docker_folder }}"
-    - "{{ jenkins_caddy_folder }}"
 
 - name: "Copy dockerfiles to {{ jenkins_dockerfiles_folder }}"
   become: yes
@@ -43,13 +42,6 @@
     dest: "{{ jenkins_docker_folder }}"
   register: docker_config
 
-- name: "Copy caddy config to {{ jenkins_caddy_folder }}"
-  become: yes
-  copy:
-    src: "files/{{ jenkins_setup }}/caddy/Caddyfile"
-    dest: "{{ jenkins_caddy_folder }}"
-  register: caddy_config
-
 - name: "Clone bitbake repository"
   become: yes
   git:
@@ -68,5 +60,4 @@
     force_restart: "{{ dockerfile.changed }} or \
                     {{ plugins_config.changed }} or \
                     {{ jobs_config.changed }} or \
-                    {{ docker_config.changed }} or \
-                    {{ caddy_config.changed }} or \
+                    {{ docker_config.changed }}"

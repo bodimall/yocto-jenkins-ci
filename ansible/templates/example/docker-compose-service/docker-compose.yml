@@ -2,7 +2,7 @@ version: '2.4'
 services:
   jenkins-controller:
     container_name: jenkins-controller
-    build: {{ jenkins_dockerfiles_folder }}/jenkins-controller
+    build: {{ jenkins_dockerfiles_dir }}/jenkins-controller
     runtime: sysbox-runc
     restart: always
     environment:
@@ -12,11 +12,11 @@ services:
       jenkins:
     volumes:
       - jenkins-controller-home:/var/jenkins_home
-      - {{ jenkins_config_folder }}:/var/jenkins_config:ro
+      - {{ jenkins_casc_dir }}:/var/jenkins_config:ro
 
   jenkins-agent-yocto:
     container_name: jenkins-agent-yocto
-    build: {{ jenkins_dockerfiles_folder }}/jenkins-ssh-agent
+    build: {{ jenkins_dockerfiles_dir }}/jenkins-ssh-agent
     runtime: sysbox-runc
     restart: always
     environment:
@@ -34,7 +34,7 @@ services:
     networks:
       jenkins:
     volumes:
-      - {{ jenkins_caddy_folder }}/Caddyfile:/etc/caddy/Caddyfile
+      - {{ caddy_config_dir }}/Caddyfile:/etc/caddy/Caddyfile
       - jenkins-caddy-data:/data
       - jenkins-www:/var/www/jenkins
     ports:

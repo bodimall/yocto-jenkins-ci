@@ -1,63 +1,41 @@
 ---
 
-- name: "Create config folders"
+- name: Create config directories
   become: yes
   file:
     path: "{{ item }}"
     state: directory
-    mode: "755"
+    mode: 755
   with_items:
-    - "{{ jenkins_app_folder }}"
-    - "{{ jenkins_dockerfiles_folder }}"
-    - "{{ jenkins_config_folder }}"
-    - "{{ jenkins_config_folder }}/jobs"
-    - "{{ jenkins_docker_folder }}"
+    - "{{ jenkins_config_dir }}"
 
-- name: "Copy dockerfiles to {{ jenkins_dockerfiles_folder }}"
+- name: Copy jenkins dockerfiles
   become: yes
   copy:
-    src: "files/{{ jenkins_setup }}/dockerfiles/"
-    dest: "{{ jenkins_dockerfiles_folder }}"
-  register: dockerfile
+    src: dockerfiles
+    dest: "{{ jenkins_config_dir }}"
+  notify: Restart docker-compose service
 
-- name: "Assemble jenkins plugins.txt file"
+- name: Copy jenkins plugin files
+  become: yes
+  copy:
+    src: jenkins_plugins
+    dest: "{{ jenkins_config_dir }}"
+
+- name: Assemble jenkins plugins.txt file
   become: yes
   assemble:
-    src: "files/{{ jenkins_setup }}/jenkins_plugins"
-    dest: "{{ jenkins_dockerfiles_folder }}/jenkins-controller/plugins.txt"
-    remote_src: no
-  register: plugins_config
+    src: "{{ jenkins_plugins_txt_dir }}"
+    dest: "{{ jenkins_dockerfiles_dir }}/jenkins-controller/plugins.txt"
+  notify: Restart docker-compose service
 
-- name: "Copy jenkins config files to {{ jenkins_config_folder }}"
+- name: Synchronize jenkins config files
   become: yes
-  copy:
-    src: "files/{{ jenkins_setup }}/jenkins_config/"
-    dest: "{{ jenkins_config_folder }}"
-  register: jobs_config
-
-- name: "Copy docker daemon config to {{ jenkins_docker_folder }}"
-  become: yes
-  copy:
-    src: "files/{{ jenkins_setup }}/docker/daemon.json"
-    dest: "{{ jenkins_docker_folder }}"
-  register: docker_config
-
-- name: "Clone bitbake repository"
-  become: yes
-  git:
-    repo: https://git.openembedded.org/bitbake
-    dest: /usr/local/src/bitbake
-    version: "2022-04.2-kirkstone"
-    clone: yes
-    update: yes
-  register: bitbake_src
-
-- include_role:
-    name: docker-compose-service
-  vars:
-    service_name: "jenkins"
-    compose_template: "templates/{{ jenkins_setup }}/docker-compose.yml"
-    force_restart: "{{ dockerfile.changed }} or \
-                    {{ plugins_config.changed }} or \
-                    {{ jobs_config.changed }} or \
-                    {{ docker_config.changed }}"
+  synchronize:
+    src: "{{ inventory_hostname }}/jenkins/jenkins_config"
+    dest: "{{ jenkins_config_dir }}"
+    delete: yes
+    recursive: yes
+    owner: no
+    group: no
+  notify: Restart docker-compose service

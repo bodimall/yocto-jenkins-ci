@@ -1,21 +1,21 @@
 [Unit]
-Description=docker-compose {{ service_name }} service
-{% if auto_restart_if_failing %}
+Description=docker-compose {{ compose_service_name }} service
+{% if compose_auto_restart_if_failing %}
 StartLimitIntervalSec=5min
 StartLimitBurst=10
 {% endif %}
 Requires=docker.service network-online.target
 After=docker.service network-online.target
-{% for dep in service_dependencies %}
+{% for dep in compose_service_dependencies %}
 Requires={{ dep }}
 After={{ dep }}
 {% endfor %}
 
 [Service]
-WorkingDirectory=/etc/docker-compose/{{ service_name }}
+WorkingDirectory={{ compose_dir }}/{{ compose_service_name }}
 Type=simple
 TimeoutStartSec=15min
-{% if auto_restart_if_failing %}
+{% if compose_auto_restart_if_failing %}
 Restart=always
 RestartSec=5sec
 {% endif %}

@@ -1,11 +1,12 @@
 ---
 
-- name: "Create systemd service file: {{ service_file_path }}"
+- name: "Create systemd service file: {{ compose_service_file_path }}"
   become: yes
   template:
-    src: "templates/template.service"
-    dest: "{{ service_file_path }}"
+    src: template.service
+    dest: "{{ compose_service_file_path }}"
   register: service_file
+  notify: Restart docker-compose service
 
 - name: Reload systemd config files
   become: yes
@@ -13,36 +14,32 @@
     daemon_reload: yes
   when: service_file.changed
 
-- name: "Create docker compose folder: {{ compose_service_folder }}"
+- name: "Create docker compose directory: {{ compose_service_dir }}"
   become: yes
   file:
-    path: "{{ compose_service_folder }}"
+    path: "{{ compose_service_dir }}"
     state: directory
     recurse: yes
 
 - name: "Create docker compose file: {{ compose_file_path }}"
   become: yes
   template:
-    src: "{{ compose_template }}"
+    src: "{{ inventory_hostname }}/docker-compose-service/docker-compose.yml"
     dest: "{{ compose_file_path }}"
-  register: compose
+  notify: Restart docker-compose service
 
-- name: "Set enabled={{ service_enabled }} for: {{ service_name }}"
+- name: "Set enabled={{ compose_service_enabled }} for: {{ compose_service_name }}"
   become: yes
   systemd:
-    name: "{{ service_name }}"
-    enabled: "{{ service_enabled }}"
+    name: "{{ compose_service_name }}"
+    enabled: "{{ compose_service_enabled }}"
 
-- name: "Start service: {{ service_name }}"
+- name: Flush handlers
+  meta: flush_handlers
+
+- name: "Start service: {{ compose_service_name }}"
   become: yes
   systemd:
-    name: "{{ service_name }}"
+    name: "{{ compose_service_name }}"
     state: started
-  register: start
-
-- name: "Restart service: {{ service_name }}"
-  become: yes
-  systemd:
-    name: "{{ service_name }}"
-    state: restarted
-  when: not start.changed and (compose.changed or force_restart)
+  notify: Restart docker-compose service

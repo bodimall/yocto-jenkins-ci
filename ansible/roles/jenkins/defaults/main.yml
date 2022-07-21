@@ -1,8 +1,6 @@
 ---
 
-jenkins_app_folder: "/etc/jenkins"
-jenkins_config_folder: "{{ jenkins_app_folder }}/jenkins_jobs"
-jenkins_docker_folder: "{{ jenkins_app_folder }}/docker"
-jenkins_dockerfiles_folder: "{{ jenkins_app_folder }}/dockerfiles"
-
-jenkins_setup: "example"
+jenkins_config_dir: /etc/jenkins
+jenkins_casc_dir: "{{ jenkins_config_dir }}/jenkins_config"
+jenkins_dockerfiles_dir: "{{ jenkins_config_dir }}/dockerfiles"
+jenkins_plugins_txt_dir: "{{ jenkins_config_dir }}/jenkins_plugins"

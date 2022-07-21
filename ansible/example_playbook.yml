@@ -10,3 +10,4 @@
     - role: bitbake-hashserv
     - role: caddy
     - role: jenkins
+    - role: docker-compose-service

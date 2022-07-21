@@ -42,10 +42,10 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY docker-entrypoint.sh /usr/bin/docker-entrypoint.sh
 RUN chmod +x /usr/bin/docker-entrypoint.sh
 
-# prepare folder for artifact publishing
+# prepare director for artifact publishing
 RUN mkdir -p /var/www/jenkins && chown jenkins:jenkins -R /var/www/jenkins
 
-# prepare home folder for agent
+# prepare home directory for agent
 RUN mkdir -p /var/jenkins/agent && chown -R jenkins:jenkins /var/jenkins/
 
 ENTRYPOINT ["/usr/bin/docker-entrypoint.sh"]

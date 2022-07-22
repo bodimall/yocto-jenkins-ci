@@ -1,0 +1,17 @@
+---
+
+- name: Create config directories
+  become: yes
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 755
+  with_items:
+    - "{{ jenkins_config_dir }}"
+
+- name: Copy jenkins dockerfiles
+  become: yes
+  copy:
+    src: dockerfiles
+    dest: "{{ jenkins_config_dir }}"
+  notify: Restart docker-compose service

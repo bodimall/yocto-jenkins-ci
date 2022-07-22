@@ -32,7 +32,7 @@
 - name: Synchronize jenkins config files
   become: yes
   synchronize:
-    src: "{{ inventory_hostname }}/jenkins/jenkins_config"
+    src: "{{ inventory_hostname }}/jenkins-controller/jenkins_config"
     dest: "{{ jenkins_config_dir }}"
     delete: yes
     recursive: yes

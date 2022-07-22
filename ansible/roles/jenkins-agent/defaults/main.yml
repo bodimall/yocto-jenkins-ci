@@ -1,0 +1,4 @@
+---
+
+jenkins_config_dir: /etc/jenkins
+jenkins_dockerfiles_dir: "{{ jenkins_config_dir }}/dockerfiles"

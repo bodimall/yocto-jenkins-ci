@@ -9,5 +9,6 @@
     - role: sysbox
     - role: bitbake-hashserv
     - role: caddy
-    - role: jenkins
+    - role: jenkins-controller
+    - role: jenkins-agent
     - role: docker-compose-service

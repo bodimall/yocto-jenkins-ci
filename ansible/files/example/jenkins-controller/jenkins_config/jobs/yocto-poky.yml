@@ -1,0 +1,89 @@
+jobs:
+  - script: >
+      multibranchPipelineJob('yocto-poky') {
+        branchSources {
+          branchSource {
+            source {
+              git {
+                remote('https://git.yoctoproject.org/poky')
+                id('poky')
+                traits {
+                  gitBranchDiscovery()
+                  gitTagDiscovery()
+                  headWildcardFilter {
+                    includes('*')
+                    excludes('')
+                  }
+                  cleanBeforeCheckoutTrait {
+                    extension {
+                      deleteUntrackedNestedRepositories(true)
+                    }
+                  }
+                  cleanAfterCheckoutTrait {
+                    extension {
+                      deleteUntrackedNestedRepositories(true)
+                    }
+                  }
+                  cloneOptionTrait {
+                    extension {
+                      shallow(true)
+                      noTags(false)
+                      reference('')
+                      timeout(10)
+                      depth(1)
+                      honorRefspec(false)
+                    }
+                  }
+                }
+              }
+            }
+            buildStrategies {
+              buildNamedBranches {
+                filters {
+                  wildcards {
+                    includes('kirkstone*')
+                    excludes('kirkstone-next')
+                    caseSensitive(false)
+                  }
+                }
+              }
+              buildTags {
+                atLeastDays('')
+                atMostDays('7')
+              }
+            }
+          }
+        }
+        orphanedItemStrategy {
+          discardOldItems {
+            daysToKeep(7)
+          }
+        }
+        factory{
+          remoteJenkinsFileWorkflowBranchProjectFactory{
+            localMarker("")
+            matchBranches(true)
+            remoteJenkinsFile("example_repos/yocto-poky/Jenkinsfile")
+            remoteJenkinsFileSCM{
+              gitSCM{
+                userRemoteConfigs{
+                  userRemoteConfig{
+                    name("modern-jenkins-setup")
+                    url("https://github.com/aflorian/yocto-jenkins-ci.git")
+                    refspec("master")
+                    credentialsId("")
+                  }
+                  browser{}
+                  gitTool("")
+                }
+              }
+            }
+          fallbackBranch("*master")
+          }
+        }
+        triggers {
+          periodicFolderTrigger {
+            interval('2m')
+          }
+        }
+      }

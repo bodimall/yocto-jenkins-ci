@@ -58,6 +58,7 @@ Vagrant.configure("2") do |config|
   config.vm.network "private_network", type: "dhcp"
   config.vm.network "forwarded_port", guest: 80, host: 80
   config.vm.network "forwarded_port", guest: 443, host: 443
+  config.vm.network "forwarded_port", guest: 8687, host: 8687
 
   config.vm.synced_folder ".", "/vagrant",
       type: "rsync"

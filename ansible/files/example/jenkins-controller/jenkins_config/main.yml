@@ -29,7 +29,7 @@ jenkins:
           port: 22
           sshHostKeyVerificationStrategy: "nonVerifyingKeyVerificationStrategy"
       name: "yocto-1"
-      remoteFS: "/var/jenkins/agent"
+      remoteFS: "/home/jenkins"
       retentionStrategy: "always"
   numExecutors: 0
   primaryView:

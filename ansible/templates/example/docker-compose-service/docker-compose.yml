@@ -25,7 +25,7 @@ services:
       jenkins:
     volumes:
       - jenkins-www-yocto:/var/www/yocto
-      - jenkins-agent-yocto-home:/var/jenkins/agent
+      - jenkins-agent-yocto-home:/home/jenkins
 
   jenkins-caddy:
     container_name: jenkins-caddy

@@ -36,7 +36,7 @@ services:
     volumes:
       - {{ caddy_config_dir }}/Caddyfile:/etc/caddy/Caddyfile
       - jenkins-caddy-data:/data
-      - jenkins-www:/var/www/jenkins
+      - jenkins-www:/var/www/jenkins:ro
     ports:
       - 80:80
       - 443:443

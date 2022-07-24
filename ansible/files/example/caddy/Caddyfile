@@ -3,7 +3,7 @@ jenkins.localhost {
 }
 
 artifacts.localhost {
-  root * /var/www/jenkins
+  root * /var/www
   file_server {
     browse
   }

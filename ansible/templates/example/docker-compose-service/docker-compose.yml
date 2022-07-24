@@ -24,7 +24,7 @@ services:
     networks:
       jenkins:
     volumes:
-      - jenkins-www:/var/www/jenkins
+      - jenkins-www-yocto:/var/www/yocto
       - jenkins-agent-yocto-home:/var/jenkins/agent
 
   jenkins-caddy:
@@ -37,7 +37,7 @@ services:
     volumes:
       - {{ caddy_config_dir }}/Caddyfile:/etc/caddy/Caddyfile
       - jenkins-caddy-data:/data
-      - jenkins-www:/var/www/jenkins:ro
+      - jenkins-www-yocto:/var/www/yocto:ro
     ports:
       - 80:80
       - 443:443
@@ -78,6 +78,6 @@ networks:
 volumes:
   jenkins-controller-home:
   jenkins-agent-yocto-home:
-  jenkins-www:
+  jenkins-www-yocto:
   jenkins-caddy-data:
   hashserv-db:

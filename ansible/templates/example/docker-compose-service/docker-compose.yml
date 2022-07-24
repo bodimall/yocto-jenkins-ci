@@ -30,6 +30,7 @@ services:
   jenkins-caddy:
     container_name: jenkins-caddy
     image: caddy:2.5.2@sha256:2728a7a5cc9045d475a134f9230565677fe26deb5306060a0ab766d8449f6ba4
+    runtime: sysbox-runc
     restart: always
     networks:
       jenkins:

@@ -31,6 +31,15 @@
     - branch_name: "k5.13"
       ge: "5.13.0"
       lt: "5.15.0"
+    - branch_name: "k5.16"
+      ge: "5.15.0"
+      lt: "5.17.0"
+    - branch_name: "k5.17"
+      ge: "5.17.0"
+      lt: "5.18.0"
+    - branch_name: "k5.18"
+      ge: "5.18.0"
+      lt: "5.20.0"
 
 - name: Clone shiftfs source
   become: yes

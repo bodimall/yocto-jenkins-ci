@@ -2,3 +2,5 @@ ansible_host: 127.0.0.1
 
 compose_service_name: jenkins
 compose_auto_restart_if_failing: yes
+compose_service_dependencies:
+  - sysbox.service

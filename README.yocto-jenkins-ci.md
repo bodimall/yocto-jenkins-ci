@@ -129,15 +129,27 @@ All plugins and corresponding versions are provided in the [Base Jenkins plugins
 Additional plugins .txt files can be added to this directory to be automatically installed
 during the Docker image build.
 The easiest way to update to the newest versions is to first update all plugins.
-To do so just open the Jenkins web-UI and go to the [plugin manager](https://jenkins.localhost/pluginManager/) page.
-Here we can see the newest version of each plugin.
-Update the plugin version in the plugin .txt files for all available compatible updates.
-Sometimes the name showed in the GUI do not directly match the name in the [Controller-Dockerfile].
-The real raw name can be observed by clicking onto the link behind the GUI name.
-After this we can restart the containers to see if everything is now up-to-date.
+To do so just open the Jenkins web-UI, go to the [plugin manager](https://jenkins.localhost/pluginManager/) and update all available plugins.
+
+Restart Jenkins after updating the plugins.
+
+The plugin .txt files in [jenkins_plugins](ansible/roles/jenkins-controller/files/jenkins_plugins) need to be updated accordingly.
+To get the list of installed plugins and its versions the following Jenkins script can be executed
+in the [Script-Console](https://jenkins.localhost/manage/script):
+
+~~~
+def pluginList = new ArrayList(Jenkins.instance.pluginManager.plugins)
+pluginList.sort { it.getShortName() }.each{
+  plugin ->
+    println ("${plugin.getShortName()}:${plugin.getVersion()}")
+}
+~~~
+
+After updating the plugin files we can restart the containers to see if everything is now up-to-date.
 The easiest way to achieve this is to use Vagrant:
 
 ~~~~~~
+vagrant rsync <virtualbox-ubuntu2004|virtualbox-bullseye|libvirt-ubuntu2204|libvirt-bullseye>
 vagrant provision <virtualbox-ubuntu2004|virtualbox-bullseye|libvirt-ubuntu2204|libvirt-bullseye>
 ~~~~~~
 

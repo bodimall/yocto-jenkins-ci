@@ -1,4 +1,4 @@
 ---
 
 bitbake_src_dir: /usr/local/src/bitbake
-bitbake_version: 2022-04.2-kirkstone
+bitbake_version: 2022-04.3-kirkstone

@@ -145,6 +145,9 @@ pluginList.sort { it.getShortName() }.each{
 }
 ~~~
 
+The updated plugins may introduce configuration changes. Make sure to update the changes from
+[configuration-as-code](https://jenkins.localhost/configuration-as-code/viewExport).
+
 After updating the plugin files we can restart the containers to see if everything is now up-to-date.
 The easiest way to achieve this is to use Vagrant:
 

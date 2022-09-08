@@ -1,4 +1,4 @@
-FROM jenkins/ssh-agent:bullseye-jdk11@sha256:230b33464858e13c5f077b21fcf5818daa254265d1c6864615884d0aee9fbe56
+FROM jenkins/ssh-agent:bullseye-jdk11@sha256:ccb105ee72c1399c8331d9a43917d99c2fddbd4216bd8c347d5a2e42358b7447
 
 RUN apt-get update \
   && apt-get install -y --no-install-recommends \

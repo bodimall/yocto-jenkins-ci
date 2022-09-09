@@ -27,9 +27,9 @@ Vagrant.configure("2") do |config|
       end
   end
 
-  config.vm.define "virtualbox-bullseye" do |virtualbox_bullseye|
-      virtualbox_bullseye.vm.box = "debian/bullseye64"
-      virtualbox_bullseye.vm.box_version = "11.20220718.1"
+  config.vm.define "virtualbox-debian11" do |virtualbox_debian11|
+      virtualbox_debian11.vm.box = "generic/debian11"
+      virtualbox_debian11.vm.box_version = "4.1.10"
 
       config.vm.provider "virtualbox" do |vb|
           vb.name = vm_name
@@ -40,9 +40,9 @@ Vagrant.configure("2") do |config|
       end
   end
 
-  config.vm.define "libvirt-bullseye" do |libvirt_bullseye|
-      libvirt_bullseye.vm.box = "debian/bullseye64"
-      libvirt_bullseye.vm.box_version = "11.20220718.1"
+  config.vm.define "libvirt-debian11" do |libvirt_debian11|
+      libvirt_debian11.vm.box = "generic/debian11"
+      libvirt_debian11.vm.box_version = "4.1.10"
 
       config.vm.provider "libvirt" do |libvirt|
           libvirt.memory = "4096"

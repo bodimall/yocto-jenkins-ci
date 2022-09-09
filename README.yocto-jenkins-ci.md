@@ -16,7 +16,7 @@ and therefore easy maintainable Jenkins instance for Yocto CI/CD.
 
 Supported Linux Distributions:
 * Ubuntu 22.04
-* Debian Bullseye
+* Debian 11
 
 The main technologies used are:
 
@@ -53,7 +53,7 @@ vagrant up virtualbox-ubuntu2204
 
 or
 
-vagrant up virtualbox-bullseye
+vagrant up virtualbox-debian11
 ~~~~~~
 
 Linux:
@@ -62,7 +62,7 @@ vagrant up libvirt-ubuntu2204
 
 or
 
-vagrant up libvirt-bullseye
+vagrant up libvirt-debian11
 ~~~~~~
 
 The VM creation and provisioning will take a while.
@@ -80,7 +80,7 @@ Insecure https certificate is expected since the setup os running on the local m
 Working with the VM
 -------------------
 
-To access the VM we can directly use the Virtualbox GUI, `vagrant ssh <virtualbox-ubuntu2004|virtualbox-bullseye|libvirt-ubuntu2204|libvirt-bullseye>` or any other SSH agent like `PuTTY`.
+To access the VM we can directly use the Virtualbox GUI, `vagrant ssh <virtualbox-ubuntu2004|virtualbox-debian11|libvirt-ubuntu2204|libvirt-debian11>` or any other SSH agent like `PuTTY`.
 The user and password is `vagrant`.
 
 After connecting we can observe the logs of the Jenkins docker-compose run:
@@ -152,8 +152,8 @@ After updating the plugin files we can restart the containers to see if everythi
 The easiest way to achieve this is to use Vagrant:
 
 ~~~~~~
-vagrant rsync <virtualbox-ubuntu2004|virtualbox-bullseye|libvirt-ubuntu2204|libvirt-bullseye>
-vagrant provision <virtualbox-ubuntu2004|virtualbox-bullseye|libvirt-ubuntu2204|libvirt-bullseye>
+vagrant rsync <virtualbox-ubuntu2004|virtualbox-debian11|libvirt-ubuntu2204|libvirt-debian11>
+vagrant provision <virtualbox-ubuntu2004|virtualbox-debian11|libvirt-ubuntu2204|libvirt-debian11>
 ~~~~~~
 
 The related ansible role will update all files in the VM and restart the Docker containers.

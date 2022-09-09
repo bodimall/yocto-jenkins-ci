@@ -6,7 +6,7 @@ vm_name = "modern-jenkins"
 Vagrant.configure("2") do |config|
   config.vm.define "virtualbox-ubuntu2204" do |virtualbox_ubuntu2204|
       virtualbox_ubuntu2204.vm.box = "generic/ubuntu2204"
-      virtualbox_ubuntu2204.vm.box_version = "4.1.0"
+      virtualbox_ubuntu2204.vm.box_version = "4.1.10"
 
       config.vm.provider "virtualbox" do |vb|
           vb.name = vm_name
@@ -19,7 +19,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "libvirt-ubuntu2204" do |libvirt_ubuntu2204|
       libvirt_ubuntu2204.vm.box = "generic/ubuntu2204"
-      libvirt_ubuntu2204.vm.box_version = "4.1.0"
+      libvirt_ubuntu2204.vm.box_version = "4.1.10"
 
       config.vm.provider "libvirt" do |libvirt|
           libvirt.memory = "4096"

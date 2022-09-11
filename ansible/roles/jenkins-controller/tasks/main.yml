@@ -29,13 +29,42 @@
     dest: "{{ jenkins_dockerfiles_dir }}/jenkins-controller/plugins.txt"
   notify: Restart docker-compose service
 
+- name: Create temporary directory
+  tempfile:
+    state: directory
+  register: temp_dir
+  delegate_to: localhost
+
+- name: Create config subdirectories
+  file:
+    path: "{{ temp_dir.path }}/jenkins_config/{{ item.path }}"
+    state: directory
+    mode: "{{ item.mode }}"
+  with_filetree: "{{ inventory_hostname }}/jenkins-controller/jenkins_config"
+  when: item.state == "directory"
+  delegate_to: localhost
+
+- name: Template jenkins config files
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ temp_dir.path }}/jenkins_config/{{ item.path }}"
+    mode: "{{ item.mode }}"
+  with_filetree: "{{ inventory_hostname }}/jenkins-controller/jenkins_config"
+  when: item.state == "file"
+  delegate_to: localhost
+
 - name: Synchronize jenkins config files
   become: yes
   synchronize:
-    src: "{{ inventory_hostname }}/jenkins-controller/jenkins_config"
+    src: "{{ temp_dir.path }}/jenkins_config"
     dest: "{{ jenkins_config_dir }}"
     delete: yes
     recursive: yes
     owner: no
     group: no
   notify: Restart docker-compose service
+
+- name: Cleanup temporary directory
+  file:
+    path: "{{ temp_dir.path }}"
+    state: absent

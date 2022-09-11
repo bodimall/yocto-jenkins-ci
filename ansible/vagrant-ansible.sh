@@ -8,6 +8,6 @@ sudo apt-get install ansible -y
 
 ansible-playbook \
   --connection=local \
-  --inventory  ${SCRIPT_DIR}/ansible/inv-example \
+  --inventory  ${SCRIPT_DIR}/inv-example \
   --extra-vars 'ansible_python_interpreter=/usr/bin/python3' \
-  ${SCRIPT_DIR}/ansible/jenkins_controller_playbook.yml
+  ${SCRIPT_DIR}/jenkins_controller_playbook.yml

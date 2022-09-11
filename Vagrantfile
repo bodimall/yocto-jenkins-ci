@@ -63,6 +63,6 @@ Vagrant.configure("2") do |config|
   config.vm.synced_folder ".", "/vagrant",
       type: "rsync"
   config.vm.provision "shell",
-      inline: "/vagrant/vagrant-ansible.sh",
+      inline: "/vagrant/ansible/vagrant-ansible.sh",
       privileged: false
 end

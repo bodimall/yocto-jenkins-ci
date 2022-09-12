@@ -34,6 +34,7 @@
     state: directory
   register: temp_dir
   delegate_to: localhost
+  changed_when: no
 
 - name: Create config subdirectories
   file:
@@ -43,6 +44,7 @@
   with_filetree: "{{ inventory_hostname }}/jenkins-controller/jenkins_config"
   when: item.state == "directory"
   delegate_to: localhost
+  changed_when: no
 
 - name: Template jenkins config files
   template:
@@ -52,6 +54,7 @@
   with_filetree: "{{ inventory_hostname }}/jenkins-controller/jenkins_config"
   when: item.state == "file"
   delegate_to: localhost
+  changed_when: no
 
 - name: Synchronize jenkins config files
   become: yes
@@ -68,3 +71,4 @@
   file:
     path: "{{ temp_dir.path }}"
     state: absent
+  changed_when: no

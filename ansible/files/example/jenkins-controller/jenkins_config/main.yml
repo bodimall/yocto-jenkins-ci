@@ -118,6 +118,9 @@ security:
     usageStatisticsEnabled: true
   copyartifact:
     mode: PRODUCTION
+  gitHooks:
+    allowedOnAgents: false
+    allowedOnController: false
   gitHostKeyVerificationConfiguration:
     sshHostKeyVerificationStrategy: "knownHostsFileVerificationStrategy"
   globalJobDslSecurityConfiguration:

@@ -1,5 +1,22 @@
 ---
 
+- name: Create /etc/docker directory
+  become: yes
+  file:
+    path: /etc/docker
+    state: directory
+    mode: 0755
+
+- name: Install Docker daemon.json config
+  become: yes
+  copy:
+    src: "{{ inventory_hostname }}/dockerio/daemon.json"
+    dest: /etc/docker/daemon.json
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Restart docker service
+
 - name: Install docker.io and dependencies
   become: yes
   apt:

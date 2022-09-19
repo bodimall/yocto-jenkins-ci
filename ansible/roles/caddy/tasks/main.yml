@@ -13,7 +13,6 @@
   tempfile:
     state: directory
   register: temp_dir
-  delegate_to: localhost
   changed_when: no
 
 - name: Create config subdirectories
@@ -23,7 +22,6 @@
     mode: "{{ item.mode }}"
   with_filetree: "{{ inventory_hostname }}/caddy"
   when: item.state == "directory"
-  delegate_to: localhost
   changed_when: no
 
 - name: Template caddy files
@@ -33,7 +31,6 @@
     mode: "{{ item.mode }}"
   with_filetree: "{{ inventory_hostname }}/caddy"
   when: item.state == "file"
-  delegate_to: localhost
   changed_when: no
 
 - name: Synchronize caddy config files
@@ -47,6 +44,7 @@
     group: no
     times: no
     checksum: yes
+  delegate_to: "{{ ansible_host }}"
   notify: Restart docker-compose service
 
 - name: Cleanup temporary directory

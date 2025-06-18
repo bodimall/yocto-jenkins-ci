@@ -8,8 +8,7 @@ pipeline {
     }
 
     options {
-        timestamps()
-        ansiColor('xterm')
+        timestamps() // ✅ Keep this valid option
     }
 
     stages {
@@ -23,21 +22,25 @@ pipeline {
         stage('Init Yocto Build Env') {
             steps {
                 echo "📦 Setting up Yocto environment..."
-                sh """
-                    cd ${YOCTO_DIR}
-                    source oe-init-build-env build
-                """
+                wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']) {
+                    sh """
+                        cd ${YOCTO_DIR}
+                        source oe-init-build-env build
+                    """
+                }
             }
         }
 
         stage('Build Yocto Image') {
             steps {
                 echo "🛠️  Building Yocto image: ${IMAGE_NAME}"
-                sh """
-                    cd ${BUILD_DIR}
-                    source ../oe-init-build-env
-                    bitbake ${IMAGE_NAME}
-                """
+                wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']) {
+                    sh """
+                        cd ${BUILD_DIR}
+                        source ../oe-init-build-env
+                        bitbake ${IMAGE_NAME}
+                    """
+                }
             }
         }
 

@@ -14,33 +14,33 @@ pipeline {
     stages {
         stage('Checkout Source') {
             steps {
-                git credentialsId: '40004859-e101-4fa0-9a5a-6e35653829f7', 
+                git credentialsId: '40004859-e101-4fa0-9a5a-6e35653829f7',
                     url: 'https://github.com/bodimall/yocto-jenkins-ci.git'
             }
         }
 
         stage('Init Yocto Build Env') {
             steps {
-                sh """
-                    cd yocto
-                    source oe-init-build-env build
-                """
+                dir('yocto') {
+                    sh 'source oe-init-build-env build'
+                }
             }
         }
 
         stage('Build Yocto Image') {
             steps {
-                sh """
-                    cd yocto/build
-                    source ../oe-init-build-env
-                    bitbake ${IMAGE_NAME}
-                """
+                dir('yocto/build') {
+                    sh '''
+                        source ../oe-init-build-env
+                        bitbake ${IMAGE_NAME}
+                    '''
+                }
             }
         }
 
         stage('Archive Artifacts') {
             steps {
-                archiveArtifacts artifacts: '**/tmp/deploy/images/**/*', allowEmptyArchive: true
+                archiveArtifacts artifacts: 'yocto/build/tmp/deploy/images/**/*', allowEmptyArchive: true
             }
         }
     }

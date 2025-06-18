@@ -3,12 +3,12 @@ pipeline {
 
     environment {
         YOCTO_DIR = "${WORKSPACE}/yocto"
-        IMAGE_NAME = "core-image-minimal"  // Change to your image (e.g. conga-q430-dev-image)
+        IMAGE_NAME = "core-image-minimal"  // Update to your actual image
         BUILD_DIR = "${YOCTO_DIR}/build"
     }
 
     options {
-        timestamps() // ✅ Keep this valid option
+        timestamps()
     }
 
     stages {
@@ -22,25 +22,21 @@ pipeline {
         stage('Init Yocto Build Env') {
             steps {
                 echo "📦 Setting up Yocto environment..."
-                wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']) {
-                    sh """
-                        cd ${YOCTO_DIR}
-                        source oe-init-build-env build
-                    """
-                }
+                sh """
+                    cd ${YOCTO_DIR}
+                    source oe-init-build-env build
+                """
             }
         }
 
         stage('Build Yocto Image') {
             steps {
                 echo "🛠️  Building Yocto image: ${IMAGE_NAME}"
-                wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']) {
-                    sh """
-                        cd ${BUILD_DIR}
-                        source ../oe-init-build-env
-                        bitbake ${IMAGE_NAME}
-                    """
-                }
+                sh """
+                    cd ${BUILD_DIR}
+                    source ../oe-init-build-env
+                    bitbake ${IMAGE_NAME}
+                """
             }
         }
 

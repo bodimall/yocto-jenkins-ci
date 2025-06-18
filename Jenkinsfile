@@ -2,41 +2,33 @@ pipeline {
     agent any
 
     environment {
-        YOCTO_DIR = "${WORKSPACE}/yocto"
         IMAGE_NAME = "core-image-minimal"
-        BUILD_DIR = "${YOCTO_DIR}/build"
-    }
-
-    options {
-        timestamps()
     }
 
     stages {
-        stage('Checkout Source') {
+        stage('Checkout CI/CD Repo') {
             steps {
                 git credentialsId: '40004859-e101-4fa0-9a5a-6e35653829f7',
                     url: 'https://github.com/bodimall/yocto-jenkins-ci.git'
             }
         }
 
-        stage('Init Yocto Build Env') {
+        stage('Clone Yocto Project') {
             steps {
-                dir('yocto') {
-                    sh '''
-                        . ./oe-init-build-env build
-                    '''
-                }
+                sh '''
+                    git clone https://github.com/my-org/my-yocto-project.git
+                    cd my-yocto-project
+                    . oe-init-build-env build
+                '''
             }
         }
 
         stage('Build Yocto Image') {
             steps {
-                dir('yocto/build') {
-                    sh '''
-                        . ../oe-init-build-env
-                        bitbake core-image-minimal
-                    '''
-                }
+                sh '''
+                    cd my-yocto-project/build
+                    bitbake core-image-minimal
+                '''
             }
         }
     }

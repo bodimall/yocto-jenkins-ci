@@ -21,8 +21,8 @@ pipeline {
 
         stage('Init Yocto Build Env') {
             steps {
-                dir('yocto') {
-                    sh 'source oe-init-build-env build'
+                #!/bin/bash
+                source oe-init-build-env build
                 }
             }
         }

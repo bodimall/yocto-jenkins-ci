@@ -21,25 +21,20 @@ pipeline {
 
         stage('Init Yocto Build Env') {
             steps {
-                    sh '''
-                        source ../oe-init-build-env
-                    '''
-                }
+                sh '''
+                    source ../oe-init-build-env
+                '''
             }
         }
 
         stage('Build Yocto Image') {
             steps {
                 dir('yocto/build') {
+                    sh '''
                         source ../oe-init-build-env
-                        bitbake ${IMAGE_NAME}
+                        bitbake core-image-minimal
+                    '''
                 }
-            }
-        }
-
-        stage('Archive Artifacts') {
-            steps {
-                archiveArtifacts artifacts: 'yocto/build/tmp/deploy/images/**/*', allowEmptyArchive: true
             }
         }
     }

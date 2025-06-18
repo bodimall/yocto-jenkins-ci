@@ -21,9 +21,11 @@ pipeline {
 
         stage('Init Yocto Build Env') {
             steps {
-                sh '''
-                    source ../oe-init-build-env
-                '''
+                dir('yocto') {
+                    sh '''
+                        . ./oe-init-build-env build
+                    '''
+                }
             }
         }
 
@@ -31,7 +33,7 @@ pipeline {
             steps {
                 dir('yocto/build') {
                     sh '''
-                        source ../oe-init-build-env
+                        . ../oe-init-build-env
                         bitbake core-image-minimal
                     '''
                 }

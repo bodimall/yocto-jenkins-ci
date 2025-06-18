@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         YOCTO_DIR = "${WORKSPACE}/yocto"
-        IMAGE_NAME = "core-image-minimal"  // Update to your actual image
+        IMAGE_NAME = "core-image-minimal"
         BUILD_DIR = "${YOCTO_DIR}/build"
     }
 
@@ -12,18 +12,17 @@ pipeline {
     }
 
     stages {
-        stage('Preparation') {
+        stage('Checkout Source') {
             steps {
-                echo "✅ Cloning done by Jenkins. Showing contents..."
-                sh 'ls -la'
+                git credentialsId: '40004859-e101-4fa0-9a5a-6e35653829f7', 
+                    url: 'https://github.com/bodimall/yocto-jenkins-ci.git'
             }
         }
 
         stage('Init Yocto Build Env') {
             steps {
-                echo "📦 Setting up Yocto environment..."
                 sh """
-                    cd ${YOCTO_DIR}
+                    cd yocto
                     source oe-init-build-env build
                 """
             }
@@ -31,9 +30,8 @@ pipeline {
 
         stage('Build Yocto Image') {
             steps {
-                echo "🛠️  Building Yocto image: ${IMAGE_NAME}"
                 sh """
-                    cd ${BUILD_DIR}
+                    cd yocto/build
                     source ../oe-init-build-env
                     bitbake ${IMAGE_NAME}
                 """
@@ -42,7 +40,6 @@ pipeline {
 
         stage('Archive Artifacts') {
             steps {
-                echo "📁 Archiving build outputs..."
                 archiveArtifacts artifacts: '**/tmp/deploy/images/**/*', allowEmptyArchive: true
             }
         }
